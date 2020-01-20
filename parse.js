@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 
 rl = readline.createInterface({
-	input: fs.createReadStream('status_test')
+	input: fs.createReadStream('status')
 });
 
 let pkgInfo = {
@@ -12,14 +12,13 @@ let pkgInfo = {
 let singlePackage = {};
 let readingDescription = false;
 let descriptionLines = "";
-let currentPropertyName = "";
 
 rl.on('line', (line) => {
 	if((line.indexOf('Description: ') > -1)) {
 		readingDescription = true;
 	} else if((line.indexOf(':') > -1) && readingDescription) {
 		readingDescription = false;
-		singlePackage['Description'] = descriptionLines
+		singlePackage['Description'] = descriptionLines;
 		descriptionLines = ""
 	} else {
 		if(readingDescription) {
@@ -42,5 +41,13 @@ rl.on('line', (line) => {
 
 
 rl.on('close', function () {
-	console.log(pkgInfo);
+	pkgInfo.packages.push(singlePackage);
+	// console.log(pkgInfo);
+	fs.writeFile('statusJson.json',
+		JSON.stringify(pkgInfo),
+		function (error) {
+		if(error) {
+			return console.log(error);
+		}
+	});
 });
