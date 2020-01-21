@@ -1,15 +1,22 @@
-const fs = require('fs');
-const readline = require('readline');
+import * as fs from 'fs'
+import * as readline from 'readline';
 
-rl = readline.createInterface({
+let rl = readline.createInterface({
 	input: fs.createReadStream('status')
 });
 
-let pkgInfo = {
-	packages: []
-};
+interface SinglePackageInfo {
+	Description: string;
+	Package: string;
+	Depends: string;
+}
 
-let singlePackage = {};
+interface PackagesInfo {
+	packages: SinglePackageInfo[]
+}
+
+let pkgInfo : PackagesInfo
+let singlePackage : SinglePackageInfo;
 let readingDescription = false;
 let descriptionLines = "";
 
@@ -26,16 +33,22 @@ rl.on('line', (line) => {
 		}
 	}
 
-	if ((line.indexOf('Package: ') > -1) ||
-		(line.indexOf('Depends: ') > -1 )) {
+	if(line.indexOf(':') > -1) {
 		let lineParts = line.split(':');
-		singlePackage[lineParts[0]] = lineParts[1]
+		switch(lineParts[0]) {
+			case "Package:":
+				singlePackage.Package = lineParts[1]
+				break;
+			case "Depends:":
+				singlePackage.Depends = lineParts[1]
+				break;
+		}
 	}
 
 	// an empty line indicating new package
 	if (!line) {
 		pkgInfo.packages.push(singlePackage);
-		singlePackage = {}
+		singlePackage =  <SinglePackageInfo>{}
 	}
 });
 
@@ -43,8 +56,8 @@ rl.on('line', (line) => {
 rl.on('close', function () {
 	pkgInfo.packages.push(singlePackage);
 	// console.log(pkgInfo);
-	fs.writeFile('statusJson.json',
-		JSON.stringify(pkgInfo),
+	fs.writeFile('statusJson.js',
+		"const packageData = " + JSON.stringify(pkgInfo),
 		function (error) {
 		if(error) {
 			return console.log(error);
