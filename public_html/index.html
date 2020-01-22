@@ -1,21 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Package information</title>
 
     <meta charset="UTF-8">
 
-    <script src="/data"></script>
+    <link rel="stylesheet" href="index.css" type="text/css">
+
+    <script src="statusJson.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            initPage()
+        });
+
+        function initPage() {
+            let dataContent = "<ul>";
+            packageData.packages.forEach(singlePackage => {
+                dataContent += '<li><a href="#">' + singlePackage.Package + '</a></li>';
+            });
+            dataContent += "</ul>";
+            document.getElementById("menu").innerHTML = dataContent;
+        }
+
+    </script>
+    <style>
+
+    </style>
 </head>
 <body>
-<div id="data"></div>
-<script>
-    // document.getElementById("data").innerHTML = JSON.stringify(packageData);
-    let dataContent = "";
-    packageData.packages.forEach(singlePackage => {
-        dataContent += '<a>' + singlePackage.Package + '</a><br>';
-    });
-    document.getElementById("data").innerHTML = dataContent;
-</script>
+    <div id="page-wrapper">
+        <div id="menu"></div>
+        <div id="package-information"></div>
+    </div>
 </body>
 </html>

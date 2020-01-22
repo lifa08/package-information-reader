@@ -1,0 +1,38 @@
+body {
+    font-family: Verdana, Tahoma, sans-serif
+}
+
+#page-wrapper {
+    display: flex;
+}
+
+#menu {
+    flex-grow: 1;
+    background-color: rgb(51, 51, 51);
+
+    ul {
+        list-style: none;
+        margin: .9rem 0 .5rem;
+        padding: 0;
+    }
+
+    li {
+        padding: 0 0 8px 20px;
+        margin-bottom: 8px;
+
+        a {
+            text-decoration: none;
+            color: rgb(204, 204, 204);
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}
+
+
+#package-information {
+    flex-grow: 5;
+    background-color: white;
+}

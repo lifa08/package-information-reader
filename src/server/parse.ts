@@ -1,8 +1,12 @@
 import * as fs from 'fs'
 import * as readline from 'readline';
+import * as path from "path";
+
+const staticFilesPath = path.dirname(path.dirname(__dirname)) + "/public_html/";
+const resourcesPath = path.dirname(path.dirname(__dirname)) + "/resources/";
 
 let rl = readline.createInterface({
-	input: fs.createReadStream('status')
+	input: fs.createReadStream(resourcesPath + 'status')
 });
 
 interface SinglePackageInfo {
@@ -15,8 +19,8 @@ interface PackagesInfo {
 	packages: SinglePackageInfo[]
 }
 
-let pkgInfo : PackagesInfo
-let singlePackage : SinglePackageInfo;
+let pkgInfo = <PackagesInfo>{ packages: [] };
+let singlePackage = <SinglePackageInfo>{};
 let readingDescription = false;
 let descriptionLines = "";
 
@@ -37,10 +41,10 @@ rl.on('line', (line) => {
 		let lineParts = line.split(':');
 		switch(lineParts[0]) {
 			case "Package:":
-				singlePackage.Package = lineParts[1]
+				singlePackage.Package = lineParts[1];
 				break;
 			case "Depends:":
-				singlePackage.Depends = lineParts[1]
+				singlePackage.Depends = lineParts[1];
 				break;
 		}
 	}
@@ -56,8 +60,8 @@ rl.on('line', (line) => {
 rl.on('close', function () {
 	pkgInfo.packages.push(singlePackage);
 	// console.log(pkgInfo);
-	fs.writeFile('statusJson.js',
-		"const packageData = " + JSON.stringify(pkgInfo),
+	fs.writeFile(staticFilesPath + 'statusJson.js',
+		"const packageData = " + JSON.stringify(pkgInfo) + ";",
 		function (error) {
 		if(error) {
 			return console.log(error);
