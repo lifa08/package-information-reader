@@ -1,5 +1,5 @@
 prebuild:
-	tsc src/precompile/* --outDir dist/
+	tsc src/precompile/* --outDir dist/precompile/
 parse: prebuild
 	node dist/precompile/parse.js
 build: parse
