@@ -6,23 +6,7 @@
     <meta charset="UTF-8">
 
     <link rel="stylesheet" href="index.css" type="text/css">
-
-    <script src="statusJson.js"></script>
-    <script>
-        window.addEventListener('load', function () {
-            initPage()
-        });
-
-        function initPage() {
-            let dataContent = "<ul>";
-            packageData.packages.forEach(singlePackage => {
-                dataContent += '<li><a href="#">' + singlePackage.Package + '</a></li>';
-            });
-            dataContent += "</ul>";
-            document.getElementById("menu").innerHTML = dataContent;
-        }
-
-    </script>
+    <script src="app-bundle.js"></script>
     <style>
 
     </style>
