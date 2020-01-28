@@ -36,9 +36,15 @@ class App {
             return singlePackage.ID === packageID
         });
         if(matchingPackages.length == 1) {
+            let packageInformationWrapperElement = document.getElementById("package-information");
+            let topOffset = packageInformationWrapperElement ? packageInformationWrapperElement.getBoundingClientRect().top : 0;
+            let topMargin = Math.max(0, -topOffset);
+            if(topOffset != 0) {
+                topMargin += 16;
+            }
             let packageInformation = new PackageInformation(matchingPackages[0], (packageID: number) => {
                 this.showPackageInformation(packageID)
-            });
+            }, topMargin);
             App.appendElementsAsChildren("package-information", packageInformation.elements());
         }
     }

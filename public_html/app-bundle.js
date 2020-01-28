@@ -35,9 +35,15 @@ var App = /** @class */ (function () {
             return singlePackage.ID === packageID;
         });
         if (matchingPackages.length == 1) {
+            var packageInformationWrapperElement = document.getElementById("package-information");
+            var topOffset = packageInformationWrapperElement ? packageInformationWrapperElement.getBoundingClientRect().top : 0;
+            var topMargin = Math.max(0, -topOffset);
+            if (topOffset != 0) {
+                topMargin += 16;
+            }
             var packageInformation = new packageInformation_1.PackageInformation(matchingPackages[0], function (packageID) {
                 _this.showPackageInformation(packageID);
-            });
+            }, topMargin);
             App.appendElementsAsChildren("package-information", packageInformation.elements());
         }
     };
@@ -79,30 +85,49 @@ exports.Menu = Menu;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var PackageInformation = /** @class */ (function () {
-    function PackageInformation(packageInformation, dependencyClickCallback) {
+    function PackageInformation(packageInformation, dependencyClickCallback, scrollFromTopWhenClickingPackage) {
         this.packageInformation = packageInformation;
         this.dependencyClickCallback = dependencyClickCallback;
+        this.scrollFromTopWhenClickingPackage = scrollFromTopWhenClickingPackage;
     }
     PackageInformation.prototype.elements = function () {
         var _this = this;
         var wrapperDiv = document.createElement("div");
+        wrapperDiv.setAttribute("style", "margin-top: " + this.scrollFromTopWhenClickingPackage + "px;");
         var titleDiv = document.createElement("div");
-        titleDiv.innerHTML = this.packageInformation.PackageName;
+        titleDiv.innerHTML = '<span class="header">Package name: </span>' + this.packageInformation.PackageName;
+        titleDiv.className = "title";
         var descriptionDiv = document.createElement("div");
-        descriptionDiv.innerHTML = this.packageInformation.Description;
+        descriptionDiv.innerHTML = '<span class="header">Description: </span>' + this.packageInformation.Description;
+        descriptionDiv.className = "description";
         var dependenciesDiv = document.createElement("div");
-        this.packageInformation.Depends.map(function (dependency) {
-            if (dependency !== null) {
-                var linkDiv = document.createElement("div");
-                var aDiv = document.createElement("a");
-                aDiv.onclick = function () {
-                    _this.dependencyClickCallback(dependency.id);
-                };
-                aDiv.innerText = dependency.name;
-                linkDiv.appendChild(aDiv);
-                dependenciesDiv.appendChild(linkDiv);
-            }
-        });
+        dependenciesDiv.className = "dependencies";
+        var dependenciesTitleDiv = document.createElement("div");
+        dependenciesTitleDiv.innerHTML = '<span class="header">Dependencies: </span>';
+        dependenciesDiv.appendChild(dependenciesTitleDiv);
+        if (this.packageInformation.Depends.length === 0) {
+            var noDependencyDiv = document.createElement("div");
+            noDependencyDiv.innerHTML = "No dependencies.";
+            noDependencyDiv.className = "no-dependencies";
+            dependenciesDiv.appendChild(noDependencyDiv);
+        }
+        else {
+            var ulDiv_1 = document.createElement("ul");
+            dependenciesDiv.appendChild(ulDiv_1);
+            this.packageInformation.Depends.map(function (dependency) {
+                if (dependency !== null) {
+                    var liDiv = document.createElement("li");
+                    liDiv.className = "dependency";
+                    var aDiv = document.createElement("a");
+                    aDiv.onclick = function () {
+                        _this.dependencyClickCallback(dependency.id);
+                    };
+                    aDiv.innerText = dependency.name;
+                    liDiv.appendChild(aDiv);
+                    ulDiv_1.appendChild(liDiv);
+                }
+            });
+        }
         wrapperDiv.appendChild(titleDiv);
         wrapperDiv.appendChild(descriptionDiv);
         wrapperDiv.appendChild(dependenciesDiv);
