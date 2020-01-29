@@ -5,8 +5,8 @@ interface DependencyClickCallback {
 }
 
 export class PackageInformation {
-    packageInformation : SinglePackageInfo;
-    dependencyClickCallback : DependencyClickCallback;
+    packageInformation: SinglePackageInfo;
+    dependencyClickCallback: DependencyClickCallback;
     scrollFromTopWhenClickingPackage: number;
 
     constructor(packageInformation: SinglePackageInfo, dependencyClickCallback: DependencyClickCallback, scrollFromTopWhenClickingPackage: number) {
@@ -30,19 +30,19 @@ export class PackageInformation {
         dependenciesTitleDiv.innerHTML = '<span class="header">Dependencies: </span>';
         dependenciesDiv.appendChild(dependenciesTitleDiv);
 
-        if(this.packageInformation.Depends.length === 0) {
+        if (this.packageInformation.Depends.length === 0) {
             let noDependencyDiv = document.createElement("div");
-            noDependencyDiv.innerHTML="No dependencies."
-            noDependencyDiv.className="no-dependencies";
+            noDependencyDiv.innerHTML = "No dependencies.";
+            noDependencyDiv.className = "no-dependencies";
             dependenciesDiv.appendChild(noDependencyDiv);
         } else {
             let ulDiv = document.createElement("ul");
             dependenciesDiv.appendChild(ulDiv);
 
             this.packageInformation.Depends.map((dependency: Dependency | null) => {
-                if(dependency !== null) {
+                if (dependency !== null) {
                     let liDiv = document.createElement("li");
-                    liDiv.className="dependency";
+                    liDiv.className = "dependency";
                     let aDiv = document.createElement("a");
                     aDiv.onclick = () => {
                         this.dependencyClickCallback(dependency.id);
@@ -53,8 +53,6 @@ export class PackageInformation {
                 }
             });
         }
-
-
         wrapperDiv.appendChild(titleDiv);
         wrapperDiv.appendChild(descriptionDiv);
         wrapperDiv.appendChild(dependenciesDiv);
