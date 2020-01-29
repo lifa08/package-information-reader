@@ -4,7 +4,7 @@ import * as path from 'path';
 import {ServerResponse} from "http";
 
 const hostname = '0.0.0.0';
-const port = 3000;
+const port = process.env.PORT || 3000;
 const staticFilesPath = path.dirname(path.dirname(__dirname)) + "/public_html/";
 
 const server = http.createServer((req, res) => {

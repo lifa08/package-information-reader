@@ -16,3 +16,5 @@ debug-docker-image:
 	docker run -it -p 127.0.0.1:3000:3000 reaktor-assignment /bin/bash
 run-docker-image:
 	docker run -p 127.0.0.1:3000:3000 -d reaktor-assignment
+set-heroku-docker-stack:
+	heroku stack:set container
