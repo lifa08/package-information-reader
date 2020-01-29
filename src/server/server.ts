@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {ServerResponse} from "http";
 
-const hostname = '127.0.0.1';
+const hostname = '0.0.0.0';
 const port = 3000;
 const staticFilesPath = path.dirname(path.dirname(__dirname)) + "/public_html/";
 

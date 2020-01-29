@@ -10,3 +10,9 @@ run:
 	node dist/server/server.js
 watch:
 	nodemon --ext "ts, pcss" --exec "make build run || exit 1"
+build-docker-image:
+	docker build -t reaktor-assignment .
+debug-docker-image:
+	docker run -it -p 127.0.0.1:3000:3000 reaktor-assignment /bin/bash
+run-docker-image:
+	docker run -p 127.0.0.1:3000:3000 -d reaktor-assignment
