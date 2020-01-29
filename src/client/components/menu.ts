@@ -3,13 +3,13 @@ interface MenuItemCallback {
 }
 
 export interface MenuItem {
-    name : string,
+    name: string,
     url: string,
     clickAction: MenuItemCallback
 }
 
 export class Menu {
-    items : MenuItem[];
+    items: MenuItem[];
 
     constructor(items: MenuItem[]) {
         this.items = items;

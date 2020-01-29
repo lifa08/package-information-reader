@@ -1,7 +1,7 @@
 import * as http from 'http';
+import {ServerResponse} from 'http';
 import * as fs from 'fs';
 import * as path from 'path';
-import {ServerResponse} from "http";
 
 const hostname = '0.0.0.0';
 const port = (process.env.PORT ? parseInt(process.env.PORT) : false) || 3000;
@@ -11,8 +11,7 @@ const server = http.createServer((req, res) => {
 
     if (req.url === '/' && req.method === 'GET') {
         sendFile(staticFilesPath, "index.html", 'text/html', res)
-    }
-    else if (req.url === '/index.css' && req.method === 'GET') {
+    } else if (req.url === '/index.css' && req.method === 'GET') {
         sendFile(staticFilesPath, "index.css", 'text/css', res)
     } else if (req.url === '/status.ts' && req.method === 'GET') {
         sendFile(staticFilesPath, "status.ts", 'text/javascript', res)
@@ -26,9 +25,9 @@ const server = http.createServer((req, res) => {
 });
 
 function sendFile(
-    filePath : string,
-    fileName : string,
-    contentType : string,
+    filePath: string,
+    fileName: string,
+    contentType: string,
     res: ServerResponse) {
     fs.readFile(filePath + fileName, (err, data) => {
         if (err) throw err;
