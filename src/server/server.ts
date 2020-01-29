@@ -4,7 +4,7 @@ import * as path from 'path';
 import {ServerResponse} from "http";
 
 const hostname = '0.0.0.0';
-const port = process.env.PORT || 3000;
+const port = (process.env.PORT ? parseInt(process.env.PORT) : false) || 3000;
 const staticFilesPath = path.dirname(path.dirname(__dirname)) + "/public_html/";
 
 const server = http.createServer((req, res) => {
@@ -37,8 +37,6 @@ function sendFile(
         res.end(data);
     })
 }
-
-
 
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);

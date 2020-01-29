@@ -20,5 +20,4 @@ RUN npm install -g browserify
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
 CMD [ "make", "parse", "build", "run" ]
