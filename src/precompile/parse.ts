@@ -8,9 +8,9 @@ const sourceResourcesPath = path.dirname(path.dirname(__dirname)) + "/src/resour
 
 let readStream: ReadStream;
 if(fs.existsSync('/var/lib/dpkg/status')) {
-    readStream =  fs.createReadStream('/var/lib/dpkg/status.real');
+    readStream =  fs.createReadStream('/var/lib/dpkg/status');
 } else {
-    readStream = fs.createReadStream(sourceResourcesPath + 'status')
+    readStream = fs.createReadStream(sourceResourcesPath + 'status.real')
 }
 
 let rl = readline.createInterface({
