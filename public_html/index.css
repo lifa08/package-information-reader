@@ -45,7 +45,7 @@ body {
 
 #package-information > div {
         padding: var(--medium-gap);
-        margin:  var(--medium-gap);
+        margin: var(--medium-gap);
         border: 1px solid black;
         border-radius: var(--medium-gap);
     }

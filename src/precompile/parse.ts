@@ -21,12 +21,14 @@ export class SinglePackageInfo {
     PackageName: string;
     Description: string;
     Depends: (Dependency | null)[];
+    ReverseDepends: (Dependency | null)[];
 
-    constructor(id: number, packageName: string, description: string, depends: (Dependency | null)[]) {
+    constructor(id: number, packageName: string, description: string, depends: (Dependency | null)[],  reverseDepends: (Dependency | null)[]) {
         this.ID = id;
         this.Description = description;
         this.PackageName = packageName;
         this.Depends = depends;
+        this.ReverseDepends = reverseDepends;
     }
 }
 
@@ -84,18 +86,24 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', function () {
+    accumulatedPackagesInfo.sort(
+        (a, b) =>
+            (a.PackageName > b.PackageName) ? 1 : -1);
+
     pkgInfo.packages = accumulatedPackagesInfo.map(currentPackageInfo => {
         let dependencies: (Dependency | null)[] | undefined = currentPackageInfo.Depends?.split(",").map(stringValue => {
 
-            let possibleDependenciesString: string[] = stringValue.split("(")[0].trim().split("|");
+            let possibleDependenciesString: string[] = stringValue.trim().split("|");
+            let matchFound = false;
             return possibleDependenciesString.map(dependencyName => {
 
                 let matchingPackages = accumulatedPackagesInfo.filter(otherDependency => {
                     //console.log(dependencyName + " : " + otherDependency.PackageName)
-                    return otherDependency.PackageName === dependencyName.trim();
+                    return otherDependency.PackageName === dependencyName.split("(")[0].trim();
                 });
-                if (matchingPackages.length > 0) {
-                    return <Dependency>{name: dependencyName, id: matchingPackages[0].ID};
+                if (matchingPackages.length > 0 && !matchFound) {
+                    matchFound = true;
+                    return <Dependency>{name: possibleDependenciesString.join(" | "), id: matchingPackages[0].ID};
                 } else {
                     return null;
                 }
@@ -105,11 +113,24 @@ rl.on('close', function () {
             currentPackageInfo.ID,
             currentPackageInfo.PackageName,
             currentPackageInfo.Description,
-            dependencies ? dependencies : []
+            dependencies ? dependencies : [],
+            []
         );
     });
 
-    //console.log(pkgInfo.packages)
+    pkgInfo.packages.forEach((singlePackageInfo) => {
+        singlePackageInfo.Depends.forEach((dependency) => {
+            let reverseDependencyPackages = pkgInfo.packages.filter((singlePackageInfo) => {
+                return singlePackageInfo.ID === dependency?.id;
+            });
+            reverseDependencyPackages.forEach((reverseSinglePackageInfo) => {
+                reverseSinglePackageInfo.ReverseDepends.push(<Dependency>{
+                    id: singlePackageInfo.ID,
+                    name: singlePackageInfo.PackageName
+                });
+            })
+        });
+    });
 
     const moduleImportString = "import { PackagesInfo } from '../precompile/parse';";
     const variableDefinitionString = "export const packagesInfo : PackagesInfo = ";
