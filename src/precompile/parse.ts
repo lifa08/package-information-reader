@@ -1,11 +1,20 @@
 import * as fs from 'fs'
 import * as readline from 'readline';
 import * as path from "path";
+import {ReadStream} from "fs";
 
 const sourceResourcesPath = path.dirname(path.dirname(__dirname)) + "/src/resources/";
 
+
+let readStream: ReadStream;
+if(fs.existsSync('/var/lib/dpkg/status')) {
+    readStream =  fs.createReadStream('/var/lib/dpkg/status.real');
+} else {
+    readStream = fs.createReadStream(sourceResourcesPath + 'status')
+}
+
 let rl = readline.createInterface({
-    input: fs.createReadStream(sourceResourcesPath + 'status')
+    input: readStream
 });
 
 export type packageID = number;
