@@ -13,8 +13,8 @@ watch:
 build-docker-image:
 	docker build -t reaktor-assignment .
 debug-docker-image:
-	docker run -it -p 127.0.0.1:3000:3000 reaktor-assignment /bin/bash
+	docker run -it -p 127.0.0.1:3000:3000 package-information-reader /bin/bash
 run-docker-image:
-	docker run -p 127.0.0.1:3000:3000 -d reaktor-assignment
+	docker run -p 127.0.0.1:3000:3000 -d package-information-reader
 set-heroku-docker-stack:
 	heroku stack:set container
