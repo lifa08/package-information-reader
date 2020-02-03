@@ -1,4 +1,4 @@
-# PkgInfo - web app
+# ![PkgInfo - web app](https://github.com/lifa08/package-information-reader/tree/master/images/demo_page.png)
 
 This simple web application reads information about installed packages of 
 a Debian and Ubuntu system
