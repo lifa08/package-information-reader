@@ -1,9 +1,15 @@
 # ![PkgInfo - web app](https://github.com/lifa08/package-information-reader/blob/master/images/demo_page.png)
 
-This simple web application reads information about installed packages of 
-a Debian and Ubuntu system
-and displays key package information.
-
+# PkgInfo - web app
+<table>
+<tr>
+<td>
+  This simple web application reads information about installed packages of 
+  a Debian and Ubuntu system
+  and displays key package information.
+</td>
+</tr>
+</table>
 
 ## Technologies
 * Node.js
