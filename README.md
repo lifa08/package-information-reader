@@ -1,4 +1,4 @@
-# ![PkgInfo - web app](https://github.com/lifa08/package-information-reader/blob/master/images/demo_page.png)
+# ![PkgInfo - web app](doc/demo_page.png)
 
 # PkgInfo - web app
 <table>
@@ -26,9 +26,4 @@ https://package-information-reader.herokuapp.com
 ## Description of important files
 
 Dockerfile: contains all the commands needed to assemble the docker image.
-
-**Folder: .idea**
-
-
-**Folder: public_html**
 
